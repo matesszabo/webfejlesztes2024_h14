@@ -29,6 +29,9 @@ public class SzemelyEntity {
     @OneToMany(mappedBy = "szemely")
     private List<KaloriaBevitelEntity> kaloriaBevitelek;
 
+    @OneToMany(mappedBy = "szemely")
+    private List<TestsulyValtozasEntity> testsulyValtozasok;
+
     public SzemelyEntity() {
     }
 
@@ -104,6 +107,14 @@ public class SzemelyEntity {
 
     public void setKaloriaBevitelek(List<KaloriaBevitelEntity> kaloriaBevitelek) {
         this.kaloriaBevitelek = kaloriaBevitelek;
+    }
+
+    public List<TestsulyValtozasEntity> getTestsulyValtozasok() {
+        return testsulyValtozasok;
+    }
+
+    public void setTestsulyValtozasok(List<TestsulyValtozasEntity> testsulyValtozasok) {
+        this.testsulyValtozasok = testsulyValtozasok;
     }
 
     @Override
