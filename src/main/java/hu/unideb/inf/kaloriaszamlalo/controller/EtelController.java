@@ -17,6 +17,6 @@ public class EtelController {
 
     @GetMapping("/hw")
     public ResponseEntity<String> helloworld(){
-        return new ResponseEntity<>("Hello, world!", HttpStatus.OK);
+        return new ResponseEntity<>("Hello, world!", HttpStatus.I_AM_A_TEAPOT);
     }
 }
