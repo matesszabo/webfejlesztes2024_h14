@@ -21,6 +21,11 @@ public class KaloriaBevitelEntity {
     @JoinColumn(name = "etel_id", referencedColumnName = "id")
     private EtelEntity etel;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "szemely_id", referencedColumnName = "id")
+    private SzemelyEntity szemely;
+
+
     public KaloriaBevitelEntity() {
     }
 
@@ -61,6 +66,14 @@ public class KaloriaBevitelEntity {
 
     public void setEtel(EtelEntity etel) {
         this.etel = etel;
+    }
+
+    public SzemelyEntity getSzemely() {
+        return szemely;
+    }
+
+    public void setSzemely(SzemelyEntity szemely) {
+        this.szemely = szemely;
     }
 
     @Override

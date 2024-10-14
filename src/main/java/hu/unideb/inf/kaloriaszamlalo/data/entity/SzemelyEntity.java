@@ -3,6 +3,7 @@ package hu.unideb.inf.kaloriaszamlalo.data.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,9 @@ public class SzemelyEntity {
     private Integer magassag;
     @Column(name = "nem")
     private String nem;
+
+    @OneToMany(mappedBy = "szemely")
+    private List<KaloriaBevitelEntity> kaloriaBevitelek;
 
     public SzemelyEntity() {
     }
@@ -92,6 +96,14 @@ public class SzemelyEntity {
 
     public void setNem(String nem) {
         this.nem = nem;
+    }
+
+    public List<KaloriaBevitelEntity> getKaloriaBevitelek() {
+        return kaloriaBevitelek;
+    }
+
+    public void setKaloriaBevitelek(List<KaloriaBevitelEntity> kaloriaBevitelek) {
+        this.kaloriaBevitelek = kaloriaBevitelek;
     }
 
     @Override
