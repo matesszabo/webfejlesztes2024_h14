@@ -32,6 +32,10 @@ public class SzemelyEntity {
     @OneToMany(mappedBy = "szemely")
     private List<TestsulyValtozasEntity> testsulyValtozasok;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "jog_id", referencedColumnName = "id")
+    private Jogosultsag jogosultsag;
+
     public SzemelyEntity() {
     }
 
@@ -115,6 +119,14 @@ public class SzemelyEntity {
 
     public void setTestsulyValtozasok(List<TestsulyValtozasEntity> testsulyValtozasok) {
         this.testsulyValtozasok = testsulyValtozasok;
+    }
+
+    public Jogosultsag getJogosultsag() {
+        return jogosultsag;
+    }
+
+    public void setJogosultsag(Jogosultsag jogosultsag) {
+        this.jogosultsag = jogosultsag;
     }
 
     @Override
