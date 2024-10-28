@@ -71,6 +71,30 @@ public class EtelController {
         return repository.findAllByTipus(tipus);
     }
 
+    @GetMapping("/filterEtel")
+    public List<EtelEntity> filterEtel(@RequestParam(required = false) String nev,
+                                       @RequestParam(required = false) Float suly,
+                                       @RequestParam(required = false) Integer kaloria,
+                                       @RequestParam(required = false) String tipus,
+                                       @RequestParam(required = false) Integer zsir,
+                                       @RequestParam(required = false) Integer szenhidrat,
+                                       @RequestParam(required = false) Integer feherje){
+
+        List<EtelEntity> szurt = repository.findAll();
+        return szurt.stream()
+                .filter(x -> nev == null || x.getNev().equals(nev))
+                .filter(x -> suly == null || x.getSuly().equals(suly))
+                .filter(x -> kaloria == null || x.getKaloria() < kaloria)
+                .filter(x -> tipus == null || x.getTipus().equals(tipus))
+                .filter(x -> zsir == null || x.getZsir() < zsir)
+                .filter(x -> szenhidrat == null || x.getSzenhidrat() < szenhidrat)
+                .filter(x -> feherje == null || x.getFeherje() < feherje)
+                .toList();
+
+
+
+    }
+
 
 
 
