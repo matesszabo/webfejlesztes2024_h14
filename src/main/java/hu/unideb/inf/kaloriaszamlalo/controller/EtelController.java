@@ -55,12 +55,13 @@ public class EtelController {
     // localhost:8080/api/etel/reggeli
     @GetMapping("/etel/{tipus}")
     public List<EtelDto> findByTipus(@PathVariable String tipus){
-
+        return service.findByTipus(tipus);
     }
 
     // localhost:8080/api/eteltipus?tipus=reggeli
     @GetMapping("/eteltipus")
     public List<EtelDto> findByTipusRp(@RequestParam String tipus){
+        return service.findByTipusRp(tipus);
     }
 
     @GetMapping("/filterEtel")
@@ -72,10 +73,7 @@ public class EtelController {
                                        @RequestParam(required = false) Integer szenhidrat,
                                        @RequestParam(required = false) Integer feherje){
 
-
-
-
-
+        return service.findByAny(nev,suly,kaloria,tipus,zsir,szenhidrat,feherje);
     }
 
 
