@@ -1,7 +1,7 @@
 package hu.unideb.inf.kaloriaszamlalo.controller;
 
-import hu.unideb.inf.kaloriaszamlalo.data.entity.EtelEntity;
-import hu.unideb.inf.kaloriaszamlalo.data.repository.EtelRepository;
+import hu.unideb.inf.kaloriaszamlalo.service.EtelManagmentService;
+import hu.unideb.inf.kaloriaszamlalo.service.dto.EtelDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 public class EtelController {
 
     @Autowired
-    EtelRepository repository;
+    EtelManagmentService service;
 
     @GetMapping("/hello")
     public String hello(){
@@ -28,14 +28,14 @@ public class EtelController {
     }
 
     @PostMapping("/saveetel")
-    public EtelEntity save(@RequestBody EtelEntity entity){
-        return repository.save(entity);
+    public EtelDto save(@RequestBody EtelDto dto){
+        return service.save(dto);
     }
 
     @PutMapping("/updateetel")
-    public EtelEntity update(@RequestBody EtelEntity entity){
-        if(entity.getId() >= 0L){
-            return repository.save(entity);
+    public EtelDto update(@RequestBody EtelDto dto){
+        if(dto.getId() >= 0L){
+            return service.save(dto)
         }
         return null;
     }
@@ -43,36 +43,28 @@ public class EtelController {
     // /localhost:8080/api/etel?id=1
     @DeleteMapping("/etel")
     public void deleteById(@RequestParam long id){
-        repository.deleteById(id);
-        //repository.delete(Etel);
+        service.delete(id);
     }
 
     @GetMapping("/etel")
-    public List<EtelEntity> findAll(){
-        return repository.findAll();
+    public List<EtelDto> findAll(){
+        return service.findAll();
     }
 
 
     // localhost:8080/api/etel/reggeli
     @GetMapping("/etel/{tipus}")
-    public List<EtelEntity> findByTipus(@PathVariable String tipus){
-        List<EtelEntity> szurt = new ArrayList<>();
-        szurt = repository.findAll()
-                .stream()
-                .filter(x -> x.getTipus().equals(tipus))
-                .toList();
+    public List<EtelDto> findByTipus(@PathVariable String tipus){
 
-        return szurt;
     }
 
     // localhost:8080/api/eteltipus?tipus=reggeli
     @GetMapping("/eteltipus")
-    public List<EtelEntity> findByTipusRp(@RequestParam String tipus){
-        return repository.findAllByTipus(tipus);
+    public List<EtelDto> findByTipusRp(@RequestParam String tipus){
     }
 
     @GetMapping("/filterEtel")
-    public List<EtelEntity> filterEtel(@RequestParam(required = false) String nev,
+    public List<EtelDto> filterEtel(@RequestParam(required = false) String nev,
                                        @RequestParam(required = false) Float suly,
                                        @RequestParam(required = false) Integer kaloria,
                                        @RequestParam(required = false) String tipus,
@@ -80,16 +72,7 @@ public class EtelController {
                                        @RequestParam(required = false) Integer szenhidrat,
                                        @RequestParam(required = false) Integer feherje){
 
-        List<EtelEntity> szurt = repository.findAll();
-        return szurt.stream()
-                .filter(x -> nev == null || x.getNev().equals(nev))
-                .filter(x -> suly == null || x.getSuly().equals(suly))
-                .filter(x -> kaloria == null || x.getKaloria() < kaloria)
-                .filter(x -> tipus == null || x.getTipus().equals(tipus))
-                .filter(x -> zsir == null || x.getZsir() < zsir)
-                .filter(x -> szenhidrat == null || x.getSzenhidrat() < szenhidrat)
-                .filter(x -> feherje == null || x.getFeherje() < feherje)
-                .toList();
+
 
 
 

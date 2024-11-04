@@ -9,6 +9,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,5 +65,38 @@ public class EtelManagementServiceImpl implements EtelManagmentService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public List<EtelDto> findByTipus(String tipus) {
+        List<EtelEntity> szurt = new ArrayList<>();
+        szurt = repo.findAll()
+                .stream()
+                .filter(x -> x.getTipus().equals(tipus))
+                .toList();
+
+        return mapper.map(szurt, new TypeToken<List<EtelDto>>(){}.getType());
+    }
+
+    @Override
+    public List<EtelDto> findByTipusRp(String tipus) {
+        return mapper.map(repo.findAllByTipus(tipus), new TypeToken<List<EtelDto>>(){}.getType());
+
+    }
+
+    @Override
+    public List<EtelDto> findByAny(String nev, Float suly, Integer kaloria, String tipus, Integer zsir, Integer szenhidrat, Integer feherje) {
+        List<EtelEntity> szurt = repo.findAll();
+        szurt = szurt.stream()
+                .filter(x -> nev == null || x.getNev().equals(nev))
+                .filter(x -> suly == null || x.getSuly().equals(suly))
+                .filter(x -> kaloria == null || x.getKaloria() < kaloria)
+                .filter(x -> tipus == null || x.getTipus().equals(tipus))
+                .filter(x -> zsir == null || x.getZsir() < zsir)
+                .filter(x -> szenhidrat == null || x.getSzenhidrat() < szenhidrat)
+                .filter(x -> feherje == null || x.getFeherje() < feherje)
+                .toList();
+
+        return mapper.map(szurt, new TypeToken<List<EtelDto>>(){}.getType());
     }
 }
