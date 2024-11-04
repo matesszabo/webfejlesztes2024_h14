@@ -4,6 +4,8 @@ import hu.unideb.inf.kaloriaszamlalo.data.entity.EtelEntity;
 import hu.unideb.inf.kaloriaszamlalo.data.repository.EtelRepository;
 import hu.unideb.inf.kaloriaszamlalo.service.EtelManagmentService;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.EtelDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +17,26 @@ public class EtelManagementServiceImpl implements EtelManagmentService {
     @Autowired
     EtelRepository repo;
 
+    @Autowired
+    ModelMapper mapper;
+
     @Override
     public EtelDto save(EtelDto dto) {
-        return null;
+        /*return mapper.map(repo.save(mapper.map(dto, EtelEntity.class)),
+                EtelDto.class);*/
+
+        EtelEntity entity = mapper.map(dto, EtelEntity.class);
+        entity = repo.save(entity);
+
+        EtelDto rdto = mapper.map(entity, EtelDto.class);
+
+        return rdto;
     }
 
     @Override
     public List<EtelDto> findAll() {
-        return List.of();
+        List<EtelEntity> entities = repo.findAll();
+        return mapper.map(entities, new TypeToken<List<EtelDto>>(){}.getType());
     }
 
     @Override
