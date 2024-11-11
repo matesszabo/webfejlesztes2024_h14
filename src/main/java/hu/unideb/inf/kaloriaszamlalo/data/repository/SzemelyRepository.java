@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SzemelyRepository extends JpaRepository<SzemelyEntity, Long> {
+    //select * from szemely where email = ?email
+    SzemelyEntity findByEmail(String email);
 }

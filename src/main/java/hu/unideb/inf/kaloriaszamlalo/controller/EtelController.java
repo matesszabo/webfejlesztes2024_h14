@@ -35,7 +35,7 @@ public class EtelController {
     @PutMapping("/updateetel")
     public EtelDto update(@RequestBody EtelDto dto){
         if(dto.getId() >= 0L){
-            return service.save(dto)
+            return service.save(dto);
         }
         return null;
     }
