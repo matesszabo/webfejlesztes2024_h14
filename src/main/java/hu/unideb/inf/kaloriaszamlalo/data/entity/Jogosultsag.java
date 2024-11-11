@@ -1,12 +1,13 @@
 package hu.unideb.inf.kaloriaszamlalo.data.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "jogosultsag")
-public class Jogosultsag {
+public class Jogosultsag implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,5 +50,10 @@ public class Jogosultsag {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 }
