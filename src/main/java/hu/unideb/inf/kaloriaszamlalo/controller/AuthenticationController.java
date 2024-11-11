@@ -1,6 +1,7 @@
 package hu.unideb.inf.kaloriaszamlalo.controller;
 
 import hu.unideb.inf.kaloriaszamlalo.service.AuthenticationService;
+import hu.unideb.inf.kaloriaszamlalo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.RegisztracioDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,5 +19,10 @@ public class AuthenticationController {
     @PostMapping("/regisztracio")
     public void regisztracio(@RequestBody RegisztracioDto dto){
         authenticationService.regisztracio(dto);
+    }
+
+    @PostMapping("/bejelentkezes")
+    public void bejelentkezes(@RequestBody BejelentkezesDto dto){
+        authenticationService.bejelentkezes(dto);
     }
 }

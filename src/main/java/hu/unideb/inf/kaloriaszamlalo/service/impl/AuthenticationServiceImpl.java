@@ -5,9 +5,12 @@ import hu.unideb.inf.kaloriaszamlalo.data.entity.SzemelyEntity;
 import hu.unideb.inf.kaloriaszamlalo.data.repository.JogosultsagRepository;
 import hu.unideb.inf.kaloriaszamlalo.data.repository.SzemelyRepository;
 import hu.unideb.inf.kaloriaszamlalo.service.AuthenticationService;
+import hu.unideb.inf.kaloriaszamlalo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.RegisztracioDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     JogosultsagRepository jogRepo;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    AuthenticationManager manager;
 
     @Override
     public void regisztracio(RegisztracioDto dto) {
@@ -38,6 +44,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         repo.save(szemely);
+
+    }
+
+    @Override
+    public void bejelentkezes(BejelentkezesDto dto) {
+        manager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        dto.getEmail()
+                        ,dto.getJelszo()
+                )
+        );
 
     }
 }
