@@ -15,7 +15,7 @@ public class SzemelyEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Column(name = "nev")
     private String nev;
     @Column(name = "szuletesi_datum")
@@ -52,11 +52,11 @@ public class SzemelyEntity implements UserDetails {
         this.nem = nem;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
