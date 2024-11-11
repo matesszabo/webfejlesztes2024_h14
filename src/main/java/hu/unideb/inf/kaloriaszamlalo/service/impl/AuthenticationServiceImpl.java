@@ -11,6 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     AuthenticationManager manager;
+
+
 
     @Override
     public void regisztracio(RegisztracioDto dto) {
@@ -49,12 +55,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void bejelentkezes(BejelentkezesDto dto) {
-        manager.authenticate(
+        SecurityContext context = SecurityContextHolder.getContext();
+
+
+        Authentication auth = manager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail()
                         ,dto.getJelszo()
                 )
         );
+
+        context.setAuthentication(auth);
 
     }
 }
