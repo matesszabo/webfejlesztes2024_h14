@@ -4,10 +4,7 @@ import hu.unideb.inf.kaloriaszamlalo.service.AuthenticationService;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.RegisztracioDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,5 +21,10 @@ public class AuthenticationController {
     @PostMapping("/bejelentkezes")
     public String bejelentkezes(@RequestBody BejelentkezesDto dto){
         return authenticationService.bejelentkezes(dto);
+    }
+
+    @GetMapping("/vt")
+    public String vt(){
+        return Thread.currentThread().toString();
     }
 }
