@@ -5,6 +5,7 @@ import hu.unideb.inf.kaloriaszamlalo.data.entity.SzemelyEntity;
 import hu.unideb.inf.kaloriaszamlalo.data.repository.JogosultsagRepository;
 import hu.unideb.inf.kaloriaszamlalo.data.repository.SzemelyRepository;
 import hu.unideb.inf.kaloriaszamlalo.service.AuthenticationService;
+import hu.unideb.inf.kaloriaszamlalo.service.JwtAuthService;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.BejelentkezesDto;
 import hu.unideb.inf.kaloriaszamlalo.service.dto.RegisztracioDto;
 import org.modelmapper.ModelMapper;
@@ -32,10 +33,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     AuthenticationManager manager;
 
+    @Autowired
+    JwtAuthService jwtService;
+
 
 
     @Override
-    public void regisztracio(RegisztracioDto dto) {
+    public String regisztracio(RegisztracioDto dto) {
         SzemelyEntity szemely = modelMapper.map(dto, SzemelyEntity.class);
         szemely.setJelszo(passwordEncoder.encode(szemely.getJelszo()));
         Jogosultsag jog = jogRepo.findByName("FELHASZNALO");
@@ -49,23 +53,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             szemely.setJogosultsag(jog);
         }
 
-        repo.save(szemely);
+        szemely = repo.save(szemely);
 
+        return jwtService.generateToken(szemely);
     }
 
     @Override
-    public void bejelentkezes(BejelentkezesDto dto) {
-        SecurityContext context = SecurityContextHolder.getContext();
-
-
+    public String bejelentkezes(BejelentkezesDto dto) {
         Authentication auth = manager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getEmail()
                         ,dto.getJelszo()
                 )
         );
-
-        context.setAuthentication(auth);
+        var user = repo.findByEmail(dto.getEmail());
+        return jwtService.generateToken(user);
 
     }
 }

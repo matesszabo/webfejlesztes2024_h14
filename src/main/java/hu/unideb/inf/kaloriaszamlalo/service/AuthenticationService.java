@@ -5,7 +5,7 @@ import hu.unideb.inf.kaloriaszamlalo.service.dto.RegisztracioDto;
 
 public interface AuthenticationService {
 
-    void regisztracio(RegisztracioDto dto);
+    String regisztracio(RegisztracioDto dto);
 
-    void bejelentkezes(BejelentkezesDto dto);
+    String bejelentkezes(BejelentkezesDto dto);
 }
