@@ -64,6 +64,7 @@ public class EtelManagementServiceImpl implements EtelManagmentService {
 
     @Override
     public void delete(Long id) {
+        repo.deleteById(id);
 
     }
 
