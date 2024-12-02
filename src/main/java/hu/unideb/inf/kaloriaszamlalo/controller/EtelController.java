@@ -17,6 +17,11 @@ public class EtelController {
     @Autowired
     EtelManagmentService service;
 
+    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> handleOptions(){
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/hello")
     public String hello(){
         return "Hello World";
